@@ -1,3 +1,6 @@
+![Descrierea imaginii](securewebapplication/sqlmap.png)
+
+
 The Importance of Secure Web Applications in Cybersecurity
 
 In a digital era dominated by increasingly sophisticated cyberattacks, the security of web applications has become a crucial component of data protection and online infrastructure security. Web applications are often targeted by cyber threats such as SQL Injection, Cross-Site Scripting (XSS), brute force attacks, and the exploitation of unpatched vulnerabilities.
