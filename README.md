@@ -14,6 +14,9 @@ A Secure Web Application provides a protected environment through robust authent
 8. Secure Comment System
 9. Password Manager
 10. Secure Messaging System
+11. WPScan
+12. Xmlrcp-attack
+13. Clickjack
 
 
 ![Sqlmap](sqlmap.png)
