@@ -1,4 +1,4 @@
-![Descrierea imaginii](securewebapplication/sqlmap.png)
+![Descrierea imaginii](sqlmap.png)
 
 
 The Importance of Secure Web Applications in Cybersecurity
