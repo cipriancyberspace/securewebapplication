@@ -1,4 +1,4 @@
-1.Secure Login System
+<h1 align="center">Secure Login System</h1>
 
 We created a login system, for the backend we use PHP and MySQL for the database and on the frontend we used HTML/CSS. 
 The purpose of this project is to show how code becomes vulnerable to SQL injection.
