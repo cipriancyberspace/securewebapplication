@@ -1,4 +1,4 @@
-aBasic command:
+Basic command:
 
 1. sqlmap -u "http://target.com/vulnerable.php?id=1" ( basic command to start testing if a website is vulnerable to SQL Injection.)
 
