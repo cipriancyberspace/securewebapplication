@@ -52,11 +52,15 @@ over data fetching from the database, to accessing the underlying file system an
        --data="username=test&password=test" \
        -D test_db -T users --dump --batch</code> </pre>
 
+![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/f0b283ed11636000979a965a8ce7c080b99c5ea2/Secure_Login_System/images/sqlmap_5.png)
+
 <strong> 4.Get database schema: </strong>
 
 <pre> <code>sqlmap -u "http://localhost/secureloginsystem/vulnerable_login_form.php" \
        --data="username=test&password=test" \
        -D test_db -T users --columns --batch</code> </pre>
+
+![Sqlmap]()
 
 
 
