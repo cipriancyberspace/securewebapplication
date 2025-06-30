@@ -60,7 +60,7 @@ over data fetching from the database, to accessing the underlying file system an
        --data="username=test&password=test" \
        -D test_db -T users --columns --batch</code> </pre>
 
-![Sqlmap]()
+![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/e4dc111aa3704427855dbe08de21b97209472a2a/Secure_Login_System/images/sqlmap_6.png)
 
 
 
@@ -68,6 +68,33 @@ over data fetching from the database, to accessing the underlying file system an
 Vulnerable PHP code:
 <pre> <code>$sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";</code> </pre>
 SQLMap exploits this by injecting payloads that break out of the SQL query, allowing it to execute additional SQL commands to enumerate databases.
+
+Primary Vulnerability Location:
+Line 78-82 - The main SQL injection vulnerability:
+
+
+<pre> <code>/ VULNERABLE CODE - Direct string concatenation
+$user = $_POST['username'];  // ❌ RAW user input
+$pass = $_POST['password'];  // ❌ RAW user input
+
+// ❌ DANGEROUS: Direct concatenation into SQL query
+$sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";</code> </pre>
+
+Secure Alternative with Prepared Statements:
+
+<pre> <code>// Proper sanitization using prepared statements
+$stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
+$stmt->bind_param("ss", $user, $pass);  // "ss" = two strings
+$stmt->execute();
+$result = $stmt->get_result();</code> </pre>
+
+Alternative with Input Escaping:
+
+<pre> <code>// Basic escaping (less secure than prepared statements)
+$user = $conn->real_escape_string($_POST['username']);
+$pass = $conn->real_escape_string($_POST['password']);
+$sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";</code> </pre>
+
 
 
 
