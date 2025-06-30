@@ -30,5 +30,7 @@ over data fetching from the database, to accessing the underlying file system an
 
 ![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/ad4ab30ec684ebaaf70cecabc7cb48c7569ec70b/Secure%20Login%20System/images/sqlmap_1.png)
 
+sqlmap -u "http://localhost/secureloginsystem/vulnerable_login_form.php" --data="username=test&password=test" --dbs --batch
+
 
                                                                                            
