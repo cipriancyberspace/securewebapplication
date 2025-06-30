@@ -23,7 +23,7 @@ Attacks like SQL Injection don't work here, but there are some vulnerabilities r
 In this part, we have protected the code against both threats. Also, I will show you how to implement CAPTCHA for brute force protection.
 
 <figure>
-  <img src="Secure%20Login%20System/images/sqlmap.png" alt="Sqlmap">
+  <img src="Secure%20Login%20System/images/sqlmap_1.png" alt="Sqlmap">
   <figcaption><i>Figura 1: Sqlmap screenshot</i></figcaption>
 </figure>
 
