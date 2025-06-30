@@ -19,5 +19,5 @@ A Secure Web Application provides a protected environment through robust authent
 13. Clickjack
 
 
-![Sqlmap](sqlmap.png)
+
 
