@@ -22,6 +22,8 @@ Attacks like SQL Injection don't work here, but there are some vulnerabilities r
 3.Secure Login System with Complete Sanitizing Code
 In this part, we have protected the code against both threats. Also, I will show you how to implement CAPTCHA for brute force protection.
 
+<h1 align="center">1.Secure Login System with Non-Sanitizing Code</h1>
+
 ![Sqlmap](https://raw.githubusercontent.com/cipriancyberspace/securewebapplication/99e7e8d24c04397303853220b9ae101d9e12e940/Secure_Login_System/images/sqlmap.png)
 
 
@@ -94,6 +96,8 @@ Alternative with Input Escaping:
 $user = $conn->real_escape_string($_POST['username']);
 $pass = $conn->real_escape_string($_POST['password']);
 $sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";</code> </pre>
+
+<h1 align="center">2.Secure Login System with Partial Sanitizing Code</h1>
 
 
 
