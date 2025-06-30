@@ -22,7 +22,7 @@ Attacks like SQL Injection don't work here, but there are some vulnerabilities r
 3.Secure Login System with Complete Sanitizing Code
 In this part, we have protected the code against both threats. Also, I will show you how to implement CAPTCHA for brute force protection.
 
-https://raw.githubusercontent.com/cipriancyberspace/securewebapplication/main/Secure_Login_System/images/sqlmap.png
+https://github.com/cipriancyberspace/securewebapplication/blob/99e7e8d24c04397303853220b9ae101d9e12e940/Secure_Login_System/images/sqlmap.png
 
 Sqlmap is an open source penetration testing tool that automates the process of detecting and exploiting SQL injection flaws and taking over of database servers. 
 It comes with a powerful detection engine, many niche features for the ultimate penetration tester and a broad range of switches lasting from database fingerprinting, 
