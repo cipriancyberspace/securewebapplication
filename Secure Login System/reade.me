@@ -1,19 +1,19 @@
 1.Secure Login System
 
-We created a login system, for the backend we use PHP and MySQL for the database, more exactly Sequel Ace for Macos, and on the frontend we used HTML/CSS. 
-The purpose of this project is to sanitize the code and understand the vulnerabilities of a code that is not properly sanitized. 
+We created a login system, for the backend we use PHP and MySQL for the database and on the frontend we used HTML/CSS. 
+The purpose of this project is to show how code becomes vulnerable to SQL injection.
 We will analyze and perform SQL Injection attacks and Cross-Site Scripting attacks to see how they work when we do not secure the appropriate code. 
-We'll use some attack tools like Burp Suite/SQLMap.
+We'll use some attack tools like SQLMap. 
 
 The project has three parts:
 
-1.Secure Login System with Partial Sanitizing Code
-Attacks like SQL Injection don't work here, but there are some vulnerabilities related to Cross-Site Scripting (XSS).
-
-2.Secure Login System with Non-Sanitizing Code
+1.Secure Login System with Non-Sanitizing Code
 Attacks like SQL Injection work here, as well as attacks like Cross-Site Scripting (XSS).
+
+2.Secure Login System with Partial Sanitizing Code
+Attacks like SQL Injection don't work here, but there are some vulnerabilities related to Cross-Site Scripting (XSS).
 
 3.Secure Login System with Complete Sanitizing Code
 In this part, we have protected the code against both threats.
 
-Additionally, we have a folder that contains methods for sanitizing the code.
+
