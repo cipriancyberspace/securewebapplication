@@ -119,6 +119,8 @@ var stolenData = {
 
 ![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/30c26c388316b68f212474aea13c1971e70e08dc/Secure_Login_System/images/xss_1.png)
 
+In the following image, I have developed a payload named advance_password_phishing.js designed to extract user authentication credentials.
+
 ![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/30c26c388316b68f212474aea13c1971e70e08dc/Secure_Login_System/images/xss_2.png)
 
 The payload sends the data to the attacker's server:
