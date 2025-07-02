@@ -16,7 +16,7 @@ Attacks like SQL Injection work here, as well as attacks like Cross-Site Scripti
     How sqlmap and other tools exploit these weaknesses
     The importance of modern PHP security practices
 
-https://github.com/cipriancyberspace/securewebapplication/blob/6446f90b9c608a4dc2e249c212e0f0be46d18ce2/Secure_Login_System/vulnerable_login_form.php
+[vulnerable_login_form.php](https://github.com/cipriancyberspace/securewebapplication/blob/6446f90b9c608a4dc2e249c212e0f0be46d18ce2/Secure_Login_System/vulnerable_login_form.php)
 
 2.Secure Login System with Partial Sanitizing Code
 Attacks like SQL Injection don't work here, but there are some vulnerabilities related to Cross-Site Scripting (XSS).
