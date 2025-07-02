@@ -16,10 +16,12 @@ Attacks like SQL Injection work here, as well as attacks like Cross-Site Scripti
     How sqlmap and other tools exploit these weaknesses
     The importance of modern PHP security practices
 
-[vulnerable_login_form.php](https://github.com/cipriancyberspace/securewebapplication/blob/6446f90b9c608a4dc2e249c212e0f0be46d18ce2/Secure_Login_System/vulnerable_login_form.php)
+[secure_sqli_vulnerable_xss.php](https://github.com/cipriancyberspace/securewebapplication/blob/233d578e923a9ef875144f9e56649e0006b6384d/Secure_Login_System/secure_sqli_vulnerable_xss.php) contains the code responsible for simulating SQL injection attacks with sqlmap. We will analyze below how the attack mechanism works and the consequences when code lacks proper sanitization.
 
 2.Secure Login System with Partial Sanitizing Code
 Attacks like SQL Injection don't work here, but there are some vulnerabilities related to Cross-Site Scripting (XSS).
+
+The [vulnerable_login_form.php](https://github.com/cipriancyberspace/securewebapplication/blob/6446f90b9c608a4dc2e249c212e0f0be46d18ce2/Secure_Login_System/vulnerable_login_form.php) file demonstrates code that has been sanitized to prevent SQL injection attacks while maintaining vulnerability to XSS attacks, together with supporting files including steal.php, dashboard.php, and payload files responsible for XSS attack vectors.
 
 3.Secure Login System with Complete Sanitizing Code
 In this part, we have protected the code against both threats. Also, I will show you how to implement CAPTCHA for brute force protection.
