@@ -142,6 +142,8 @@ The payload transmits data to the attacker's server infrastructure. During this 
 
 ![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/30c26c388316b68f212474aea13c1971e70e08dc/Secure_Login_System/images/xss_5.png)
 
+<strong> 3.Secure Login System with Complete Sanitizing Code: </strong>
 
+The secure_sqli_xss.php file is fully protected against SQL injection attacks because it uses prepared statements instead of directly concatenating user input into SQL queries. It's also secured against XSS attacks by sanitizing all output with htmlspecialchars() function, which converts dangerous HTML characters into safe entities. Additionally, I implemented a CAPTCHA system to prevent brute force attacks - this means automated bots can't repeatedly try to guess passwords because they have to solve a visual puzzle with distorted text that only humans can read. The combination of these three security measures - prepared statements for SQL safety, output sanitization for XSS prevention, and CAPTCHA for brute force protection - makes this application much more secure than the vulnerable versions we tested earlier.
 
 
